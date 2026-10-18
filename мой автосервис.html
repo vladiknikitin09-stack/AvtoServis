@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Service - Полный сайт</title>
+    <style>
+        :root {
+            --accent: #00f2ff;
+            --dark: #111111;
+            --card-bg: #1e1e1e;
+            --text-gray: #aaa;
+            --text-desc: #aaaaaa;
+        }
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background: var(--dark); 
+            color: #fff; 
+            font-family: sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 20px 50px; 
+            border-bottom: 1px solid #333; 
+            position: sticky; 
+            top: 0;
+            background: var(--dark);
+            z-index: 1000;
+        }
+        .logo { 
+            color: var(--accent); 
+            font-weight: bold; 
+            font-size: 24px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+        }
+        nav a { 
+            color: #666; 
+            text-decoration: none; 
+            margin-left: 30px; 
+            text-transform: uppercase; 
+            font-size: 14px; 
+            transition: 0.3s;
+        }
+        nav a:hover, nav a.active { 
+            color: #fff; 
+            text-decoration: underline;
+        }
+        .icons a { 
+            width: 32px; 
+            height: 32px; 
+            background: #222; 
+            border-radius: 50%; 
+            color: #fff; 
+            text-align: center; 
+            line-height: 32px; 
+            text-decoration: none; 
+            margin-left: 10px; 
+        }
+
+        /* --- Блок 1: Главная --- */
+        #home {
+            display: flex; 
+            min-height: 100vh; 
+            align-items: center;
+        }
+        .hero-text { flex: 1; padding: 0 50px; }
+        .hero-title { 
+            color: var(--accent); 
+            font-size: 60px; 
+            margin: 0; 
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.5); 
+        }
+        .hero-subtitle { color: #fff; font-size: 24px; margin: 20px 0; }
+        .hero-desc { color: var(--text-gray); max-width: 500px; margin-bottom: 40px; }
+        .actions { display: flex; align-items: center; gap: 30px; }
+        .btn { 
+            padding: 15px 40px; 
+            background: transparent; 
+            border: 1px solid #fff; 
+            color: #fff; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: 0.3s; 
+        }
+        .btn:hover { background: #fff; color: #000; }
+        .phone { display: flex; flex-direction: column; }
+        .phone span { color: #666; font-size: 12px; text-transform: uppercase; }
+        .phone b { color: var(--accent); font-size: 24px; font-weight: normal; }
+        .hero-img-wrapper { 
+            flex: 1; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .hero-img-wrapper img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: grayscale(100%); 
+            transition: 0.5s; 
+        }
+        .hero-img-wrapper:hover img { filter: grayscale(0%); }
+        .border-line { 
+            position: absolute; 
+            top: 10px; 
+            left: 0; 
+            right: 0; 
+            height: 2px; 
+            background: var(--accent); 
+        }
+        .border-line:nth-child(2) { bottom: 10px; top: auto; }
+
+        /* --- Блок 2: О нас --- */
+        #about {
+            display: flex; 
+            min-height: 100vh; 
+            align-items: center;
+            padding: 0 50px;
+        }
+        .side-img { flex: 1; position: relative; overflow: hidden; }
+        .side-img img { width: 100%; height: 100%; object-fit: cover; }
+        .accent-bar { 
+            position: absolute; 
+            top: 20%; 
+            right: -2px; 
+            bottom: 20%; 
+            width: 2px; 
+            background: var(--accent); 
+        }
+        .side-text { flex: 1; padding: 0 50px; }
+        .section-title { 
+            color: #fff; 
+            font-size: 36px; 
+            margin-bottom: 30px; 
+            border-bottom: 1px solid #333; 
+            padding-bottom: 10px; 
+        }
+        .text-block { 
+            color: var(--text-gray); 
+            font-size: 16px; 
+            line-height: 1.8; 
+            max-width: 550px; 
+        }
+        .text-block strong { color: #fff; }
+        .text-block b { color: var(--accent); }
+        .btn-cta { 
+            margin-top: 40px; 
+            padding: 15px 40px; 
+            background: transparent; 
+            border: 1px solid #fff; 
+            color: #fff; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: 0.3s; 
+        }
+        .btn-cta:hover { background: var(--accent); color: #000; }
+
+        /* --- Блок 3: Услуги --- */
+        #services {
+            padding: 60px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
+        }
+        .page-title {
+            font-size: 48px;
+            color: #fff;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .page-subtitle {
+            color: var(--text-desc);
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .service-card {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            overflow: hidden;
+            border-radius: 4px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
+        }
+        .card-img-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .service-card:hover .card-img-wrapper img {
+            transform: scale(1.1);
+        }
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-title {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .card-desc {
+            color: var(--text-desc);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        .btn-details {
+            align-self: flex-start;
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid #444;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-details:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+/* --- Блок 4: Фотоальбом (ЦЕНТРИРОВАННЫЙ СЛАЙДЕР) --- */
+#gallery {
+    padding: 60px 20px; /* Уменьшили боковые отступы для мобильных */
+    max-width: 1400px;
+    margin: 0 auto;
+    
+    /* ГЛАВНОЕ: Центрирование секции */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 800px; /* Чтобы заголовок не разъезжался на огромных экранах */
+}
+
+.gallery-title {
+    font-size: 48px;
+    color: #fff;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Контейнер слайдера */
+.slider-container {
+    position: relative;
+    width: 100%;       /* На мобильных занимает всю ширину */
+    max-width: 800px;  /* На десктопе ограничивает ширину */
+    aspect-ratio: 16 / 9; 
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    
+    /* Гарантированное центрирование самого слайдера внутри секции */
+    margin: 0 auto; 
+}
+
+/* Обертка слайдов */
+.slides-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Сам слайд */
+.slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Изображение внутри слайда */
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(1.05) contrast(1.15);
+}
+
+/* Кнопки навигации */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #555;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.nav-btn:hover {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+}
+
+.prev-btn { left: 20px; }
+.next-btn { right: 20px; }
+
+/* Точки (индикаторы) */
+.dots-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: #444;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.dot.active {
+    background-color: #00f2ff; /* Ваш неоновый акцент */
+    transform: scale(1.2);
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+    .gallery-title {
+        font-size: 36px;
+    }
+    .slider-container {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+    .nav-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}
+
+        /* --- Блок 5: Отзывы --- */
+        #reviews {
+            padding: 60px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .review-card {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .review-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
+        }
+        .review-card.highlighted {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        }
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #444;
+        }
+        .review-info h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #fff;
+        }
+        .review-info span {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+        .stars {
+            display: flex;
+            color: var(--accent);
+            margin-left: auto;
+        }
+        .stars svg { width: 18px; height: 18px; fill: currentColor; }
+        .review-text {
+            color: #ddd;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .reviews-nav {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #444;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .dot.active { background-color: var(--accent); }
+
+        /* --- Блок 6: Контакты (Стыковка со скриншотом) --- */
+        #contacts {
+            padding: 60px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--dark);
+        }
+
+        .contacts-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .contacts-info-dark {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-block-dark {
+            background-color: #000;
+            padding: 30px;
+            border: none;
+            border-bottom: 1px solid #333;
+        }
+
+        .contact-label {
+            color: #aaa;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .contact-value {
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 0 15px 0;
+            line-height: 1.2;
+        }
+
+        .contact-link {
+            color: var(--accent);
+            text-decoration: underline;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-link:hover {
+            text-decoration: none;
+        }
+
+        .contacts-form-container-dark {
+            background-color: #1e1e1e;
+            padding: 40px;
+            border-radius: 0;
+        }
+
+        .form-intro {
+            color: #ddd;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #fff;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .form-input-dark {
+            width: 100%;
+            padding: 18px;
+            background-color: #111;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 0;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .form-input-dark:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .btn-submit-dark {
+            width: 100%;
+            padding: 20px;
+            background-color: #000;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 16px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit-dark:hover {
+            background-color: var(--accent);
+            color: #000;
+        }
+
+        /* --- Общие адаптивные стили --- */
+        @media (max-width: 768px) {
+            header { padding: 15px; flex-direction: column; gap: 15px; }
+            nav { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+            nav a { margin: 0 10px; }
+            #home, #about { flex-direction: column; text-align: center; }
+            .hero-text, .side-text { padding: 40px 20px; }
+            .actions { flex-direction: column; align-items: stretch; gap: 15px; }
+            .phone { display: block; margin-top: 15px; }
+            .side-img, .hero-img-wrapper { height: 400px; }
+            .accent-bar { display: none; }
+            #services, #gallery, #reviews, #contacts { padding: 40px 20px; }
+            .page-title, .gallery-title { font-size: 36px; }
+            
+            /* Адаптив для стека фото */
+            .gallery-stack {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            .gallery-item {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                transform: none;
+                opacity: 1;
+                box-shadow: none;
+            }
+
+            /* Адаптив для отзывов */
+            .review-header { flex-direction: column; align-items: flex-start; }
+            .stars { margin-left: 0; margin-top: 10px; }
+
+            /* Адаптив для контактов */
+            .contacts-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .contact-value {
+                font-size: 24px;
+            }
+            .contacts-form-container-dark {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">LOGO Company</div>
+        <nav>
+            <a href="#home" class="active">Главная</a>
+            <a href="#about">О нас</a>
+            <a href="#services">Услуги</a>
+            <a href="#gallery">Фотоальбом</a>
+            <a href="#reviews">Отзывы</a>
+            <a href="#contacts">Контакты</a>
+        </nav>
+        <div class="icons">
+            <a href="#">W</a>
+            <a href="#">T</a>
+            <a href="#">P</a>
+        </div>
+    </header>
+
+    <!-- Секция 1: Главная -->
+    <section id="home">
+        <div class="hero-text">
+            <h1 class="hero-title">Car Service</h1>
+            <h2 class="hero-subtitle">профессиональный автосервис с гарантией качества</h2>
+            <p class="hero-desc">Ваш надежный партнёр в обслуживании и ремонте автомобилей. Наша команда опытных специалистов предлагает широкий спектр услуг, включая диагностику, техническое обслуживание, кузовной ремонт и замену запчастей.</p>
+            <div class="actions">
+                <button class="btn">Наши услуги</button>
+                <div class="phone">
+                    <span>24/7 Консультация</span>
+                    <b>8 800 500 00 00</b>
+                </div>
+            </div>
+        </div>
+        <div class="hero-img-wrapper">
+            <img src="bmw-garage.jpg" alt="BMW на подъемнике">
+            <div class="border-line"></div>
+            <div class="border-line"></div>
+        </div>
+    </section>
+
+    <!-- Секция 2: О нас -->
+    <section id="about">
+        <div class="side-img">
+            <img src="mechanic-brake.jpg" alt="Мастер меняет тормозной диск">
+            <div class="accent-bar"></div>
+        </div>
+        <div class="side-text">
+            <h1 class="section-title">Автосервис «Car Service»</h1>
+            <p class="text-block">
+                <strong>Наш автосервис</strong> — это место, где ваш автомобиль получит максимальный уход и внимание от опытных профессионалов. Мы специализируемся на обслуживании и ремонте любых марок и моделей автомобилей, обеспечивая высочайший уровень сервиса с использованием только качественных запчастей и материалов. 
+            </p>
+            <p class="text-block">
+                Наши мастера постоянно совершенствуют свои навыки и следят за последними технологическими новинками, чтобы гарантировать оптимальное состояние вашего транспортного средства.
+            </p>
+            <p class="text-block">
+                Приходите к нам, и вы убедитесь в нашей преданности качеству и профессионализму в каждой детали работы! <b>Мы ценим ваше время и деньги.</b>
+            </p>
+            <button class="btn-cta">Записаться на сервис</button>
+        </div>
+    </section>
+
+    <!-- Секция 3: Услуги -->
+    <section id="services">
+        <div class="page-header">
+            <h1 class="page-title">Услуги автосервиса</h1>
+            <p class="page-subtitle">Гарантируем высокое качество и сроки работ.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="card-img-wrapper">
+                    <img src="service-to.jpg" alt="Техническое обслуживание">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Техническое обслуживание</h3>
+                    <p class="card-desc">Комплексная проверка и обслуживание всех систем и узлов автомобиля, включая замену масла, фильтров и осмотр тормозной системы.</p>
+                    <button class="btn-details">Подробнее →</button>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="card-img-wrapper">
+                    <img src="service-wheel.jpg" alt="Шиномонтаж и балансировка">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Шиномонтаж и балансировка</h3>
+                    <p class="card-desc">Установка и балансировка колес для обеспечения плавности хода и безопасности вождения.</p>
+                    <button class="btn-details">Подробнее →</button>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="card-img-wrapper">
+                    <img src="service-engine.jpg" alt="Диагностика двигателя">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Диагностика двигателя</h3>
+                    <p class="card-desc">Проведение компьютерной диагностики двигателя для выявления и устранения неисправностей.</p>
+                    <button class="btn-details">Подробнее →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Секция 4: Фотоальбом — динамичная 3D-галерея -->
+<section id="gallery">
+    <div class="gallery-header">
+        <h1 class="gallery-title">Наш фотоальбом</h1>
+        <p class="page-subtitle">Лучшие моменты работы автосервиса</p>
+    </div>
+
+    <div class="gallery-grid">
+        <!-- Карточка 1 -->
+        <div class="gallery-card">
+            <div class="card-image-wrapper">
+                <img src="gallery-1.jpg" alt="Зона приёмки авто">
+                <div class="card-overlay"></div>
+            </div>
+            <div class="card-caption">
+                <span class="caption-label">Приёмка</span>
+                <h3>Первый взгляд на авто</h3>
+            </div>
+        </div>
+
+        <!-- Карточка 2 -->
+        <div class="gallery-card">
+            <div class="card-image-wrapper">
+                <img src="gallery-2.jpg" alt="Мастер за работой">
+                <div class="card-overlay"></div>
+            </div>
+            <div class="card-caption">
+                <span class="caption-label">Ремонт</span>
+                <h3>Точность в каждой детали</h3>
+            </div>
+        </div>
+
+        <!-- Карточка 3 -->
+        <div class="gallery-card">
+            <div class="card-image-wrapper">
+                <img src="gallery-3.jpg" alt="Подъемник с авто">
+                <div class="card-overlay"></div>
+            </div>
+            <div class="card-caption">
+                <span class="caption-label">Диагностика</span>
+                <h3>Глубокая проверка систем</h3>
+            </div>
+        </div>
+
+        <!-- Карточка 4 -->
+        <div class="gallery-card">
+            <div class="card-image-wrapper">
+                <img src="gallery-4.jpg" alt="Зона отдыха клиентов">
+                <div class="card-overlay"></div>
+            </div>
+            <div class="card-caption">
+                <span class="caption-label">Комфорт</span>
+                <h3>Зона ожидания для клиентов</h3>
+            </div>
+        </div>
+    <!-- Секция 5: Отзывы -->
+    <section id="reviews">
+        <div class="page-header">
+            <h1 class="page-title">Отзывы клиентов</h1>
+            <p class="page-subtitle">Что говорят о нас</p>
+        </div>
+        <div class="reviews-grid" id="reviewsContainer">
+            <!-- Отзыв 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="avatar-anton.jpg" alt="Антон" class="review-avatar">
+                    <div class="review-info">
+                        <h3>Антон</h3>
+                        <span>Владелец Волга</span>
+                    </div>
+                    <div class="stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                </div>
+                <p class="review-text">Не первый раз обращаюсь в этот сервис. Всегда качественное обслуживание, адекватные цены и вежливый персонал. Рекомендую!</p>
+            </div>
+
+            <!-- Отзыв 2 -->
+            <div class="review-card highlighted">
+                <div class="review-header">
+                    <img src="avatar-irina.jpg" alt="Ирина" class="review-avatar">
+                    <div class="review-info">
+                        <h3>Ирина</h3>
+                        <span>Владелец BMW</span>
+                    </div>
+                    <div class="stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                </div>
+                <p class="review-text">Отличный сервис! Сделали диагностику бесплатно и предложили оптимальные варианты ремонта. Спасибо за честность и заботу о клиентах!</p>
+            </div>
+
+            <!-- Отзыв 3 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="avatar-alexey.jpg" alt="Алексей" class="review-avatar">
+                    <div class="review-info">
+                        <h3>Алексей</h3>
+                        <span>Владелец Мерседес</span>
+                    </div>
+                    <div class="stars">
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    </div>
+                </div>
+                <p class="review-text">Быстро, качественно, цены адекватные. Приеду еще, если понадобится.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция 6: Контакты -->
+    <section id="contacts">
+        <div class="page-header">
+            <h1 class="page-title">Контакты</h1>
+        </div>
+        
+        <div class="contacts-wrapper">
+            <!-- Левая часть: Информация -->
+            <div class="contacts-info-dark">
+                <div class="contact-block-dark">
+                    <p class="contact-label">Телефон</p>
+                    <p class="contact-value">8 800 500 00 00</p>
+                    <a href="tel:+78005000000" class="contact-link">Позвонить сейчас</a>
+                </div>
+                
+                <div class="contact-block-dark">
+                    <p class="contact-label">Адрес</p>
+                    <p class="contact-value">Москва, улица Трубная, 8</p>
+                    <a href="#" class="contact-link">Открыть карту</a>
+                </div>
+            </div>
+
+            <!-- Правая часть: Форма -->
+            <div class="contacts-form-container-dark">
+                <p class="form-intro">Заполните форму ниже, и мы свяжемся с вами в кратчайшие сроки для обсуждения всех деталей.</p>
+                
+                <form onsubmit="event.preventDefault(); alert('Спасибо! Ваша заявка принята.');">
+                    <div class="form-group">
+                        <label class="form-label">Имя</label>
+                        <input type="text" placeholder="Введите ваше имя" class="form-input-dark">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Телефон</label>
+                        <input type="tel" placeholder="Введите ваш телефон" class="form-input-dark">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Сообщение</label>
+                        <textarea rows="5" placeholder="Введите ваше сообщение" class="form-input-dark"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit-dark">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
